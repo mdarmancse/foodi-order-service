@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+option csharp_namespace = "Foodi.RiderProject";
+
+package RiderPackage;
+
+service GrpcRiderService {
+  rpc GetAllRiders (RiderRequest) returns (RiderListResponse);
+  rpc GetRiderById (RiderByIdRequest) returns (RiderResponse);
+  rpc OrderDeliveredByRider (OrderDeliveredByRiderRequest) returns (OrderDeliveredByRiderResponse);
+  rpc RiderDeliveryCharge (RiderDeliveryChargeRequest) returns (RiderDeliveryChargeResponse);
+}
+
+message RiderRequest {}
+
+message RiderListResponse {
+  repeated GrpcRider riders = 1;
+}
+
+message RiderByIdRequest {
+	int32 Id = 1;
+}
+
+message RiderResponse {
+  GrpcRider rider = 1;
+}
+
+message GrpcRider {
+  int32 Id = 1;
+  int32 RiderTypeId = 2;
+  string FirstName = 3;
+  string LastName = 4;
+  string MobileNumber = 5;
+  string RiderStartDate = 6;
+}
+
+message OrderDeliveredByRiderRequest {
+  int32 rider_id = 1;
+  string order_id = 2;
+  string delivered_at = 3;
+}
+
+message OrderDeliveredByRiderResponse {
+  bool status = 1;
+  string message = 2;
+}
+
+message RiderDeliveryChargeRequest {
+  int32 rider_id = 1;
+  string order_id = 2;
+  int32 distance = 3; //In Meter
+}
+
+message RiderDeliveryChargeResponse {
+  int32 rider_id = 1;
+  string rider_name = 2;
+  string delivery_charge = 3;
+}

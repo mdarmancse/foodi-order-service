@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package orderPackage;
+
+service Orders{
+  rpc updatePaymentStatus(PaymentStatusRequest) returns (StatusResponse){};
+  rpc riderAccepted(RiderAcceptedRequest) returns (StatusResponse){};
+  rpc riderAssignmentFailed(RiderAssignmentFailedRequest) returns (StatusResponse){};
+  rpc userListBetweenFromAndToDateInSuccessOrder(UserListBetweenFromAndToDateInSuccessOrderRequest) returns (UserListBetweenFromAndToDateInSuccessOrderResponse){};
+}
+
+message Empty {}
+message StatusResponse {
+  string status = 1;
+  string message = 2;
+}
+
+message PaymentStatusRequest {
+  string orderId = 1;
+  string paymentStatus = 2;
+}
+
+message RiderAcceptedRequest {
+  string orderId = 1;
+  int32 riderId = 2;
+  string riderName = 3;
+  string riderDeliveryCharge = 4;
+}
+
+message RiderAssignmentFailedRequest {
+  string orderId = 1;
+  string cause = 2;
+}
+
+message UserListBetweenFromAndToDateInSuccessOrderRequest {
+  string fromDate = 1;
+  string toDate = 2;
+}
+message UserListBetweenFromAndToDateInSuccessOrderResponse {
+  string status = 1;
+  string message = 2;
+  repeated int32 userIds = 3;
+}
+

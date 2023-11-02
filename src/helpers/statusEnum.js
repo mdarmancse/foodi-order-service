@@ -1,0 +1,15 @@
+export const statusEnum = [
+  "cart",
+  "placed",
+  "restaurant_accepted",
+  "restaurant_rejected",
+  "restaurant_handover",
+  "rider_assigned",
+  "rider_re_assigned",
+  "rider_not_assigned",
+  "rider_arrived_at_restaurant",
+  "rider_picked_up",
+  "delivered",
+  "not_delivered",
+  "cancelled",
+];

@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "rider-auto-assigner/grpc/rider-assigner";
+
+package riderAssigner;
+
+service RiderAssigner {
+  rpc startAssigning(OrderDetail) returns (StatusResponse);
+  rpc setOrderDelivered(SetOrderDeliveredRequest) returns (StatusResponse);
+  rpc riderManuallyAssigned(RiderManuallyAssignedRequest) returns (StatusResponse);
+  rpc updateRiderActiveStatus(UpdateRiderActiveStatusRequest) returns (StatusResponse);
+  rpc getRiderStats(GetRiderStatsRequest) returns (GetRiderStatsResponse);
+}
+
+message StatusResponse {
+  bool status = 1;
+  string message = 2;
+}
+
+message Location {
+  float long = 1;
+  float lat = 2;
+}
+
+message OrderDetail {
+  string orderId = 1;
+  google.protobuf.Timestamp orderPlacedAt = 2;
+  int32 branchId = 3;
+  Location branchLocation = 4;
+  int32 branchZoneId  = 5;
+  Location deliveryLocation = 6;
+  int32 deliveryZoneId = 7;
+  float deliveryDistance = 8;
+}
+
+message SetOrderDeliveredRequest {
+  int32 riderId = 1;
+  string orderId = 2;
+  google.protobuf.Timestamp deliveredAt = 3;
+}
+
+message UpdateRiderActiveStatusRequest {
+  int32 riderId = 1;
+  repeated int32 riderZoneIds = 2;
+  int32 shiftId = 3;
+  bool isActive = 4;
+  bool autoAssign = 5;
+}
+
+message RiderManuallyAssignedRequest {
+  string orderId = 1;
+  google.protobuf.Timestamp orderPlacedAt = 2;
+  int32 branchId = 3;
+  int32 riderId = 4;
+}
+
+message Slot {
+  string start = 1;
+  string end = 2;
+}
+
+message GetRiderStatsRequest {
+  int32 riderId = 1;
+  google.protobuf.Timestamp startDate = 2;
+  google.protobuf.Timestamp endDate = 3;
+  optional Slot slot = 4;
+}
+
+message GetRiderStatsResponse {
+  int32 riderId = 1;
+  int32 totalAssignments = 2;
+  int32 totalManualAssignments = 3;
+  int32 totalDelivered = 4;
+  float acceptanceRate = 5;
+  float rejectionRate = 6;
+  float unansweredRate = 7;
+  float deliveryRate = 8;
+}

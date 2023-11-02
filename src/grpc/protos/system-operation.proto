@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "Foodi.SystemOperationProject";
+
+package SystemOperationPackage;
+
+service GrpcSystemOperationService {
+  rpc GetSpecialHour(SpecialHourRequest) returns (SpecialHourListResponse);
+}
+
+message SpecialHourListResponse{
+	repeated SpecialHourResponse specialHourResponse = 1;
+}
+
+message SpecialHourResponse{
+	string StartTime = 1;
+	string EndTime = 2;
+}
+
+message SpecialHourRequest{
+
+}

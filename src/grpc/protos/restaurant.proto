@@ -1,0 +1,125 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Foodi.RestaurantProject";
+
+package RestaurantPackage;
+
+service GrpcRestaurantService {
+	rpc GetBranchInfoForInvoice(BranchIdRequest) returns (BranchResponse);
+	rpc GetMenusByMenuIdsForPriceInfo(MenuIdsRequest) returns (MenuPriceListForOrder);
+	rpc InsertUserWiseBranchOrder(GrpcInsertUserWiseBranchOrderReq) returns(GrpcInsertUserWiseBranchOrderRes);
+	//  rpc GetBranchesByIds (BranchIdsRequest) returns (BranchListResponse);
+}
+
+message BranchIdsRequest {
+	repeated int32 Ids = 1;
+}
+
+message BranchIdRequest{
+	int32 Id = 1;
+}
+
+message MenuIdsRequest{
+	repeated int32 Ids = 1;
+}
+
+message MenuPriceListForOrder{
+	repeated MenuPriceForOrder MenuPriceForOrder = 1;
+}
+
+message MenuPriceForOrder{
+	int32 Id = 1;
+	double Price = 2;
+}
+
+message BranchResponse{
+  int32 Id = 1;
+  string Name = 2;
+  string Address = 3;
+  string PhoneNumber = 4;
+}
+
+message GrpcCategory {
+  int32 Id = 1;
+  string Name = 2;
+  int32 BranchId = 3;
+  repeated GrpcMenuItem MenuItem = 4;
+}
+
+message GrpcBranchAndBranchAttribute{
+  int32 BranchId = 1;
+  int32 BranchAttributeId = 2;
+}
+
+message GrpcBranchAndZone{
+  int32 BranchId = 1;
+  int32 ZoneId = 2;
+}
+
+message GrpcBranchAndCuisine{
+  int32 BranchId = 1;
+  int32 CuisineId = 2;
+}
+
+message GrpcBranchOperationTimeSlot{
+  int32 Day = 1;
+  int32 OpenHour = 2;
+  int32 OpenMinute = 3;
+  int32 CloseHour = 4;
+  int32 CloseMinute = 5;
+  int32 BranchId = 6;
+}
+
+message GrpcLocation{
+  repeated double Coordinates = 1;
+  string Type = 4;
+}
+
+message GrpcMenuItem{
+  int32 Id = 1;
+  string Name  = 2;
+  int32 CategoryId = 3;
+  repeated GrpcVariation Variations = 4;
+  repeated GrpcMenuItemAndMenuItemTimeSlot MenuItemAndMenuItemTimeSlot = 5;
+}
+
+message GrpcVariation{
+  int32 Id = 1;
+  string Name = 2; 
+  double Price = 3;
+  repeated GrpcAddOnCategory AddOnCategories  = 4;
+  repeated GrpcAddOn AddOns  = 5;
+}
+
+message GrpcAddOnCategory{
+  string Name = 1;
+  bool IsCategoryMultiple = 2; 
+  optional int32 MaxChoice = 3; 
+  optional string LanguageSlug = 4;
+  optional string Description = 5;
+  repeated GrpcAddOn AddOns  = 6;
+}
+
+message GrpcAddOn{
+  string Name = 1; 
+  double Price = 2;
+  int32 AddOnCategoryId = 3; 
+  optional int32 VariationId = 4;
+  optional string VariationName = 5;
+}
+
+message GrpcMenuItemAndMenuItemTimeSlot{
+  int32 MenuItemId = 1;
+  int32 MenuItemTimeSlotId = 2;
+}
+
+message GrpcInsertUserWiseBranchOrderReq{
+	int32 BranchId=1;
+	int32 UserId=2;
+	string OrderId=3;
+}
+message GrpcInsertUserWiseBranchOrderRes{
+	int32 status=1;
+	string Response=2;
+}

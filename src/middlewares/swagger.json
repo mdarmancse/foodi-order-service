@@ -1,0 +1,2728 @@
+{
+  "openapi": "3.0.3",
+
+  "info": {
+    "title": "Order Service",
+    "version": "1.0.0"
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+
+
+  "servers": [
+    {
+      "url": "https://api-dev.foodibd.com/orders",
+      "description": "Live Server"
+    },
+    {
+      "url": "http://18.139.92.172:5001/orders",
+      "description": "Staging"
+    },
+    {
+      "url": "http://localhost:3333",
+      "description": "Development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "REST APIs",
+      "description": "These are here only for documentation purpose. Here the paths are event names, request body is the message/payload structure and there is no response body as events don't have any. For OpenAPI spec purpose event names are started with a `/` here, you have to remove the starting `/`."
+    }
+  ],
+
+  "paths": {
+    "/cart": {
+      "post": {
+        "tags": ["Orders API"],
+        "summary": "Create Cart",
+        "description": "If 'isPreOrder = true' then 'preOrderDate' will be in request body <br/> If 'isItGift = true' then 'giftReceiverName, giftReceiverMobile' will be in request body",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrdersRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart/{id}": {
+      "patch": {
+        "tags": ["Orders API"],
+        "summary": "Update Cart",
+        "description": "If 'isPreOrder = true' then 'preOrderDate' will be in request body <br/> If 'isItGift = true' then 'giftReceiverName, giftReceiverMobile' will be in request body",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your order '_id'"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrdersRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order Update Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/place/{id}": {
+      "patch": {
+        "tags": ["Orders API"],
+        "summary": "Place Order",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your order '_id'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": ["Orders API"],
+        "summary": "Get All Orders",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "fromDate",
+            "required": false,
+            "description": "Enter your fromDate 'Example': 2023-08-01"
+          },
+          {
+            "in": "query",
+            "name": "toDate",
+            "required": false,
+            "description": "Enter your toDate 'Example': 2023-08-08"
+          },
+          {
+            "in": "query",
+            "name": "orderId",
+            "required": false,
+            "description": "Enter your orderId"
+          },
+          {
+            "in": "query",
+            "name": "userId",
+            "required": false,
+            "description": "Enter your userId"
+          },
+          {
+            "in": "query",
+            "name": "riderId",
+            "required": false,
+            "description": "Enter your riderId"
+          },
+          {
+            "in": "query",
+            "name": "branchId",
+            "required": false,
+            "description": "Enter your branchId"
+          },
+          {
+            "in": "query",
+            "name": "deliveryZoneId",
+            "required": false,
+            "description": "Enter your deliveryZoneId"
+          },
+          {
+            "in": "query",
+            "name": "isThresholdCrossed",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "orderStatus",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["placed", "restaurant_accepted", "restaurant_rejected", "restaurant_handover", "rider_assigned", "rider_re_assigned", "rider_not_assigned", "rider_arrived_at_restaurant", "rider_picked_up", "delivered", "not_delivered", "cancelled"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "orderType",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["delivery", "pickup", "dine_in"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "paymentMethod",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["cash", "online"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "paymentStatus",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["PENDING", "APPROVED", "DECLINED", "CANCELED"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "isVerified",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "isPreOrder",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "isDelivered",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "inProgress",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "isItGift",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["createdAt", "updatedAt", "userId", "branchId", "riderId", "branchZoneId", "deliveryZoneId"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["ASC", "DESC", "asc", "desc"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "itemsPerPage",
+            "required": false,
+            "default": 10
+          },
+          {
+            "in": "query",
+            "name": "pageNumber",
+            "required": false,
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get All Orders Responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdersGetResponses"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Orders API"],
+        "summary": "Create Order (It's Deprecated)",
+        "description": "If 'isPreOrder = true' then 'preOrderDate' will be in request body <br/> If 'isItGift = true' then 'giftReceiverName, giftReceiverMobile' will be in request body",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrdersRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{id}": {
+      "get": {
+        "tags": ["Orders API"],
+        "summary": "Order Details",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your order '_id'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Order Details Responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponses"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Orders API"],
+        "summary": "Update Order",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your order '_id'"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrdersRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order Update Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payment/{id}": {
+      "patch": {
+        "tags": ["Orders API"],
+        "summary": "Update Payment Status",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your order '_id'"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrdersPaymentStatusUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin-accept/{id}": {
+      "patch": {
+        "tags": ["Orders API"],
+        "summary": "Order Accept by Admin",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your order '_id'"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrdersAdminAcceptRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order Update Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restaurant-accept/{id}": {
+      "patch": {
+        "tags": ["Orders API"],
+        "summary": "Order Accept by Restaurant",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your order '_id'"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrdersRestaurantAcceptRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order Update Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rider-action/{id}": {
+      "patch": {
+        "tags": ["Orders API"],
+        "summary": "Rider Action",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your order '_id'"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/OrdersRiderAcceptRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order Update Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/status-histories/{id}": {
+      "get": {
+        "tags": ["Orders API"],
+        "summary": "Order Wise Status Histories/Chain List",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": false,
+            "description": "Enter your order '_id'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusHistoriesResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-orders/{userId}": {
+      "get": {
+        "tags": ["Orders API"],
+        "summary": "List of orders for individual user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "description": "Enter your userId"
+          },
+          {
+            "in": "query",
+            "name": "fromDate",
+            "required": false,
+            "description": "Enter your fromDate 'Example': 2023-08-01"
+          },
+          {
+            "in": "query",
+            "name": "toDate",
+            "required": false,
+            "description": "Enter your toDate 'Example': 2023-08-08"
+          },
+          {
+            "in": "query",
+            "name": "orderStatus",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["placed", "restaurant_accepted", "restaurant_rejected", "restaurant_handover", "rider_assigned", "rider_re_assigned", "rider_not_assigned", "rider_arrived_at_restaurant", "rider_picked_up", "delivered", "not_delivered", "cancelled"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["createdAt", "updatedAt", "userId", "branchId", "riderId", "branchZoneId", "deliveryZoneId"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["ASC", "DESC", "asc", "desc"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "itemsPerPage",
+            "required": false,
+            "default": 10
+          },
+          {
+            "in": "query",
+            "name": "pageNumber",
+            "required": false,
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Orders For Individual User",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdersGetResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rider-orders/{riderId}": {
+      "get": {
+        "tags": ["Orders API"],
+        "summary": "List of orders for individual rider",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "riderId",
+            "required": true,
+            "description": "Enter your riderId"
+          },
+          {
+            "in": "query",
+            "name": "fromDate",
+            "required": false,
+            "description": "Enter your fromDate 'Example': 2023-08-01"
+          },
+          {
+            "in": "query",
+            "name": "toDate",
+            "required": false,
+            "description": "Enter your toDate 'Example': 2023-08-08"
+          },
+          {
+            "in": "query",
+            "name": "orderStatus",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["rider_assigned", "rider_re_assigned", "rider_not_assigned", "rider_arrived_at_restaurant", "rider_picked_up", "delivered", "not_delivered"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Orders For Individual Rider",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdersResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restaurant-orders/{branchId}": {
+      "get": {
+        "tags": ["Orders API"],
+        "summary": "List of orders for individual restaurant",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "branchId",
+            "required": true,
+            "description": "Enter your branchId"
+          },
+          {
+            "in": "query",
+            "name": "fromDate",
+            "required": false,
+            "description": "Enter your fromDate 'Example': 2023-08-01"
+          },
+          {
+            "in": "query",
+            "name": "toDate",
+            "required": false,
+            "description": "Enter your toDate 'Example': 2023-08-08"
+          },
+          {
+            "in": "query",
+            "name": "orderStatus",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["placed", "restaurant_accepted", "restaurant_rejected", "restaurant_handover", "rider_assigned", "rider_re_assigned", "rider_not_assigned", "rider_arrived_at_restaurant", "rider_picked_up", "delivered", "not_delivered", "cancelled"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["createdAt", "updatedAt", "userId", "branchId", "riderId", "branchZoneId", "deliveryZoneId"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["ASC", "DESC", "asc", "desc"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "itemsPerPage",
+            "required": false,
+            "default": 10
+          },
+          {
+            "in": "query",
+            "name": "pageNumber",
+            "required": false,
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Orders For Individual Restaurant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdersGetResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restaurant-accepted-orders/{branchId}": {
+      "get": {
+        "tags": ["Orders API"],
+        "summary": "List of accepted orders for individual restaurant",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "branchId",
+            "required": true,
+            "description": "Enter your branchId"
+          },
+          {
+            "in": "query",
+            "name": "fromDate",
+            "required": false,
+            "description": "Enter your fromDate 'Example': 2023-08-01"
+          },
+          {
+            "in": "query",
+            "name": "toDate",
+            "required": false,
+            "description": "Enter your toDate 'Example': 2023-08-08"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["createdAt", "updatedAt", "userId", "branchId", "riderId", "branchZoneId", "deliveryZoneId"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["ASC", "DESC", "asc", "desc"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "itemsPerPage",
+            "required": false,
+            "default": 10
+          },
+          {
+            "in": "query",
+            "name": "pageNumber",
+            "required": false,
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Accepted Orders For Individual Restaurant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdersGetResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restaurant-rejected-orders/{branchId}": {
+      "get": {
+        "tags": ["Orders API"],
+        "summary": "List of rejected orders for individual restaurant",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "branchId",
+            "required": true,
+            "description": "Enter your branchId"
+          },
+          {
+            "in": "query",
+            "name": "fromDate",
+            "required": false,
+            "description": "Enter your fromDate 'Example': 2023-08-01"
+          },
+          {
+            "in": "query",
+            "name": "toDate",
+            "required": false,
+            "description": "Enter your toDate 'Example': 2023-08-08"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["createdAt", "updatedAt", "userId", "branchId", "riderId", "branchZoneId", "deliveryZoneId"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["ASC", "DESC", "asc", "desc"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "itemsPerPage",
+            "required": false,
+            "default": 10
+          },
+          {
+            "in": "query",
+            "name": "pageNumber",
+            "required": false,
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Rejected Orders For Individual Restaurant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdersGetResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restaurants-lat-long": {
+      "get": {
+        "tags": ["Orders API"],
+        "summary": "Get Restaurants Lat Long List (By zoneId And DateTime)",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zoneIds",
+            "required": true,
+            "description": "Enter your zoneIds",
+            "schema":{
+              "type": "array",
+              "items":{
+                "type": "number"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "fromDateTime",
+            "required": false,
+            "description": "Enter your fromDateTime 'Example': 2023-08-15T01:00:00.000Z"
+          },
+          {
+            "in": "query",
+            "name": "toDateTime",
+            "required": false,
+            "description": "Enter your toDateTime 'Example': 2023-08-15T23:59:59.999Z"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Restaurants Lat Long With Zone And DateTime",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestaurantsLatLongResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restaurant-orders-performance/{branchId}": {
+      "get": {
+        "tags": ["Orders API"],
+        "summary": "Restaurant Orders Performance",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "branchId",
+            "required": true,
+            "description": "Enter your branchId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Restaurant Orders Performance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestaurantPerformanceResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pre-orders": {
+      "get": {
+        "tags": ["Orders API"],
+        "summary": "Get All Pre-Orders",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "fromDate",
+            "required": false,
+            "description": "Enter your fromDate 'Example': 2023-08-01"
+          },
+          {
+            "in": "query",
+            "name": "toDate",
+            "required": false,
+            "description": "Enter your toDate 'Example': 2023-08-08"
+          },
+          {
+            "in": "query",
+            "name": "orderId",
+            "required": false,
+            "description": "Enter your orderId"
+          },
+          {
+            "in": "query",
+            "name": "userId",
+            "required": false,
+            "description": "Enter your userId"
+          },
+          {
+            "in": "query",
+            "name": "riderId",
+            "required": false,
+            "description": "Enter your riderId"
+          },
+          {
+            "in": "query",
+            "name": "branchId",
+            "required": false,
+            "description": "Enter your branchId"
+          },
+          {
+            "in": "query",
+            "name": "deliveryZoneId",
+            "required": false,
+            "description": "Enter your deliveryZoneId"
+          },
+          {
+            "in": "query",
+            "name": "isThresholdCrossed",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "orderStatus",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["placed", "restaurant_accepted", "restaurant_rejected", "restaurant_handover", "rider_assigned", "rider_re_assigned", "rider_not_assigned", "rider_arrived_at_restaurant", "rider_picked_up", "delivered", "not_delivered", "cancelled"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "orderType",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["delivery", "pickup", "dine_in"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "paymentMethod",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["cash", "online"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "paymentStatus",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["PENDING", "APPROVED", "DECLINED", "CANCELED"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "isVerified",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false"]
+            }
+          },{
+            "in": "query",
+            "name": "isDelivered",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "inProgress",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "isItGift",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["createdAt", "updatedAt", "userId", "branchId", "riderId", "branchZoneId", "deliveryZoneId"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["ASC", "DESC", "asc", "desc"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "itemsPerPage",
+            "required": false,
+            "default": 10
+          },
+          {
+            "in": "query",
+            "name": "pageNumber",
+            "required": false,
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Pre-Orders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdersGetResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order-thresholds": {
+      "get": {
+        "tags": ["Order Thresholds API"],
+        "summary": "Get All Order Thresholds",
+        "parameters":[
+          {
+            "in": "query",
+            "name": "sortBy",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["createdAt", "updatedAt", "threshold"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["ASC", "DESC", "asc", "desc"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "itemsPerPage",
+            "required": false,
+            "default": 10
+          },
+          {
+            "in": "query",
+            "name": "pageNumber",
+            "required": false,
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get All Order Thresholds Responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderThresholdGetResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Order Thresholds API"],
+        "summary": "Create Order Threshold",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderThresholdRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order Threshold Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderThresholdResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+      
+    },
+    "/order-thresholds/{id}": {
+      "patch": {
+        "tags": ["Order Thresholds API"],
+        "summary": "Update Order Threshold",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your threshold id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderThresholdRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order Threshold Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderThresholdResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Order Thresholds API"],
+        "summary": "Order Threshold Details",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your threshold id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order Threshold Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderThresholdResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Order Thresholds API"],
+        "summary": "Delete Order Threshold",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your threshold id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order Threshold Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderThresholdResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/amount-thresholds": {
+      "get": {
+        "tags": ["Amount Thresholds API"],
+        "summary": "Get All Amount Thresholds",
+        "parameters":[
+          {
+            "in": "query",
+            "name": "sortBy",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["createdAt", "updatedAt", "zoneId", "amount"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["ASC", "DESC", "asc", "desc"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "zoneId",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "amount",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "isActive",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "itemsPerPage",
+            "required": false,
+            "default": 10
+          },
+          {
+            "in": "query",
+            "name": "pageNumber",
+            "required": false,
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get All Amount Thresholds Responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmountThresholdGetResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Amount Thresholds API"],
+        "summary": "Create Amount Threshold",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AmountThresholdRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Amount Threshold Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmountThresholdResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+      
+    },
+    "/amount-thresholds/{id}": {
+      "patch": {
+        "tags": ["Amount Thresholds API"],
+        "summary": "Update Amount Threshold",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your threshold id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AmountThresholdRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Amount Threshold Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmountThresholdResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Amount Thresholds API"],
+        "summary": "Amount Threshold Details",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your threshold id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Amount Threshold Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmountThresholdResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Amount Thresholds API"],
+        "summary": "Delete Amount Threshold",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your threshold id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Amount Threshold Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmountThresholdResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-invoice/{id}": {
+      "get": {
+        "tags": ["Invoice API"],
+        "summary": "Invoice for User/Customer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your order '_id'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User Invoice Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rider-invoice/{id}": {
+      "get": {
+        "tags": ["Invoice API"],
+        "summary": "Invoice for Rider",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Enter your order '_id'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rider Invoice Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+
+  "components": {
+    "schemas": {
+      "OrdersRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "number",
+            "example": 123
+          },
+          "userName": {
+            "type": "string",
+            "example": "Abul Hasnat"
+          },
+          "deliveryZoneId": {
+            "type": "number",
+            "example": 123
+          },
+          "deliveryLat": {
+            "type": "number"
+          },
+          "deliveryLong": {
+            "type": "number"
+          },
+          "deliveryDistance": {
+            "type": "number"
+          },
+          "deliveryAddress": {
+            "type": "string",
+            "example": "97 Sohrawardy Ave, Dhaka 1212"
+          },
+          "deliveryApartmentName": {
+            "type": "string",
+            "example": "String | It is Optional"
+          },
+          "deliveryRoadOrFlatNumber": {
+            "type": "string",
+            "example": "String | It is Optional"
+          },
+          "isItGift": {
+            "type": "boolean",
+            "default":false
+          },
+          "giftReceiverName": {
+            "type": "string",
+            "example": "It is Optional (If 'isItGift = true' then it will be in request body)"
+          },
+          "giftReceiverMobile": {
+            "type": "string",
+            "example": "It is Optional (If 'isItGift = true' then it will be in request body)"
+          },
+          "branchId": {
+            "type": "number"
+          },
+          "branchName": {
+            "type": "string",
+            "example": "Pizza Hut"
+          },
+          "branchZoneId": {
+            "type": "number",
+            "example": 123
+          },
+          "branchLat": {
+            "type": "number"
+          },
+          "branchLong": {
+            "type": "number"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "example": "cash || online"
+          },
+          "orderType": {
+            "type": "string",
+            "example": "delivery || pickup || dine_in"
+          },
+          "promoCodeId": {
+            "type": "number"
+          },
+          "promoCodeAmount": {
+            "type": "string",
+            "example": "123"
+          },
+          "voucherId": {
+            "type": "number"
+          },
+          "voucherAmount": {
+            "type": "string",
+            "example": "123"
+          },
+          "walletAmount": {
+            "type": "string",
+            "example": "123"
+          },
+          "vat": {
+            "type": "string",
+            "example": "123"
+          },
+          "supplementaryDuty": {
+            "type": "string",
+            "example": "123"
+          },
+          "discountAmount": {
+            "type": "string",
+            "example": "123"
+          },
+          "deliveryCharge": {
+            "type": "string",
+            "example": "123"
+          },
+          "menuTotalAmount": {
+            "type": "string",
+            "example": "123"
+          },
+          "foodiCommissionRateInPercent": {
+            "type": "number",
+            "example": 5
+          },
+          "foodiCommissionAmount": {
+            "type": "string",
+            "example": "123"
+          },
+          "totalAmount": {
+            "type": "string",
+            "example": "123"
+          },
+          "isCutleryNeeded": {
+            "type": "boolean",
+            "default": false
+          },
+          "isPreOrder": {
+            "type": "boolean",
+            "default": false
+          },
+          "preOrderDate": {
+            "type": "string",
+            "example": ["2023-11-15T04:19:05.573Z", "2023-11-20T04:19:05.573Z"]
+          },
+          "avgDeliveryTime": {
+            "type": "string",
+            "example": "123456789123456789"
+          },
+          "highestRecipeTime": {
+            "type": "string",
+            "example": "123456789123456789"
+          },
+          "instruction": {
+            "type": "string",
+            "example": "Pizza would be fresh"
+          },
+          "menus": {
+            "type": "array",
+            "items": {
+              "type": "object",
+            "properties": {
+              "menuId": {
+                "type": "number"
+              },
+              "name": {
+                "type": "string",
+                "example": "Pizza"
+              },
+              "price": {
+                "type": "string",
+                "example": "123"
+              },
+              "quantity": {
+                "type": "number"
+              },
+              "categoryId": {
+                "type": "number"
+              },
+              "variation": {
+                "type": "string",
+                "example": "Small"
+              },
+              "addons": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "addonId": {
+                      "type": "number"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Tomato Sos"
+                    },
+                    "price": {
+                      "type": "string",
+                      "example": "123"
+                    },
+                    "categoryId": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+          }
+        }
+      },
+      "OrdersResponses": {
+        "type": "object",
+        "properties":{
+          "status":{
+            "type": "boolean"
+          },
+          "message":{
+            "type":"string"
+          },
+          "data":{
+            "type": "array",
+            "items": {
+              "type": "object",
+              
+              "properties": {
+                "orderId": {
+                  "type": "string"
+                },
+                "userId": {
+                  "type": "number"
+                },
+                "userName": {
+                  "type": "string"
+                },
+                "deliveryZoneId": {
+                  "type": "number"
+                },
+                "deliveryLat": {
+                  "type": "number"
+                },
+                "deliveryLong": {
+                  "type": "number"
+                },
+                "deliveryAddress": {
+                  "type": "string"
+                },
+                "deliveryDistance": {
+                  "type": "number"
+                },
+                "riderId": {
+                  "type": "number"
+                },
+                "riderName": {
+                  "type": "string"
+                },
+                "branchId": {
+                  "type": "number"
+                },
+                "branchName": {
+                  "type": "string"
+                },
+                "branchZoneId": {
+                  "type": "number"
+                },
+                "branchLat": {
+                  "type": "number"
+                },
+                "branchLong": {
+                  "type": "number"
+                },
+                "paymentId": {
+                  "type": "number"
+                },
+                "riderPaidToRestaurant": {
+                  "type": "string"
+                },
+                "proofImage": {
+                  "type": "string"
+                },
+                "orderStatus": {
+                  "type": "string"
+                },
+                "paymentStatus": {
+                  "type": "string"
+                },
+                "paymentMethod": {
+                  "type": "string"
+                },
+                "orderType": {
+                  "type": "string"
+                },
+                "promoCodeId": {
+                  "type": "number"
+                },
+                "promoCodeAmount": {
+                  "type": "string"
+                },
+                "voucherId": {
+                  "type": "number"
+                },
+                "voucherAmount": {
+                  "type": "string"
+                },
+                "walletAmount": {
+                  "type": "string"
+                },
+                "vat": {
+                  "type": "string"
+                },
+                "supplementaryDuty": {
+                  "type": "string"
+                },
+                "discountAmount": {
+                  "type": "string"
+                },
+                "deliveryCharge": {
+                  "type": "string"
+                },
+                "menuTotalAmount": {
+                  "type": "string"
+                },
+                "foodiCommissionRateInPercent": {
+                  "type": "number"
+                },
+                "foodiCommissionAmount": {
+                  "type": "string"
+                },
+                "totalAmount": {
+                  "type": "string"
+                },
+                "isCutleryNeeded": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "isPreOrder": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "preOrderDate": {
+                  "type": "string"
+                },
+                "isThresholdCrossed": {
+                  "type": "boolean"
+                },
+                "isDelivered": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "inProgress": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "isVerified": {
+                  "type": "boolean"
+                },
+                "isActive": {
+                  "type": "boolean"
+                },
+                "deliveredAt": {
+                  "type": "string"
+                },
+                "avgDeliveryTime": {
+                  "type": "string"
+                },
+                "highestRecipeTime": {
+                  "type": "string"
+                },
+                "riderArrivedRestaurantAt": {
+                  "type": "string"
+                },
+                "instruction": {
+                  "type": "string"
+                },
+                "menus": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "menuId": {
+                        "type": "number"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "price": {
+                        "type": "string"
+                      },
+                      "quantity": {
+                        "type": "number"
+                      },
+                      "categoryId": {
+                        "type": "number"
+                      },
+                      "variation": {
+                        "type": "string"
+                      },
+                      "addons": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "addonId": {
+                              "type": "number"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "price": {
+                              "type": "string"
+                            },
+                            "categoryId": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "OrderResponses": {
+        "type": "object",
+        "properties": {
+          "status":{
+            "type":"boolean"
+          },
+          "message":{
+            "type":"string"
+          },
+          "data":{
+            "type":"object",
+            "properties": {
+              "orderId": {
+                "type": "string"
+              },
+              "userId": {
+                "type": "number"
+              },
+              "userName": {
+                "type": "string"
+              },
+              "deliveryZoneId": {
+                "type": "number"
+              },
+              "deliveryLat": {
+                "type": "number"
+              },
+              "deliveryLong": {
+                "type": "number"
+              },
+              "deliveryDistance": {
+                "type": "number"
+              },
+              "deliveryAddress": {
+                "type": "string"
+              },
+              "deliveryApartmentName": {
+                "type": "string"
+              },
+              "deliveryRoadOrFlatNumber": {
+                "type": "string"
+              },
+              "isItGift": {
+                "type": "boolean",
+                "default":false
+              },
+              "giftReceiverName": {
+                "type": "string"
+              },
+              "giftReceiverMobile": {
+                "type": "string"
+              },
+              "riderId": {
+                "type": "number"
+              },
+              "riderName": {
+                "type": "string"
+              },
+              "branchId": {
+                "type": "number"
+              },
+              "branchName": {
+                "type": "string"
+              },
+              "branchZoneId": {
+                "type": "number"
+              },
+              "branchLat": {
+                "type": "number"
+              },
+              "branchLong": {
+                "type": "number"
+              },
+              "paymentId": {
+                "type": "number"
+              },
+              "riderPaidToRestaurant": {
+                "type": "string"
+              },
+              "proofImage": {
+                "type": "string"
+              },
+              "orderStatus": {
+                "type": "string"
+              },
+              "paymentStatus": {
+                "type": "string"
+              },
+              "paymentMethod": {
+                "type": "string"
+              },
+              "orderType": {
+                "type": "string"
+              },
+              "promoCodeId": {
+                "type": "number"
+              },
+              "promoCodeAmount": {
+                "type": "string"
+              },
+              "voucherId": {
+                "type": "number"
+              },
+              "voucherAmount": {
+                "type": "string"
+              },
+              "walletAmount": {
+                "type": "string"
+              },
+              "vat": {
+                "type": "string"
+              },
+              "supplementaryDuty": {
+                "type": "string"
+              },
+              "discountAmount": {
+                "type": "string"
+              },
+              "deliveryCharge": {
+                "type": "string"
+              },
+              "menuTotalAmount": {
+                "type": "string"
+              },
+              "foodiCommissionRateInPercent": {
+                "type": "number"
+              },
+              "foodiCommissionAmount": {
+                "type": "string"
+              },
+              "totalAmount": {
+                "type": "string"
+              },
+              "isCutleryNeeded": {
+                "type": "boolean",
+                "default": false
+              },
+              "isPreOrder": {
+                "type": "boolean",
+                "default": false
+              },
+              "preOrderDate": {
+                "type": "string"
+              },
+              "isThresholdCrossed": {
+                "type": "boolean"
+              },
+              "isDelivered": {
+                "type": "boolean",
+                "default": false
+              },
+              "inProgress": {
+                "type": "boolean",
+                "default": true
+              },
+              "isVerified": {
+                "type": "boolean"
+              },
+              "isActive": {
+                "type": "boolean"
+              },
+              "deliveredAt": {
+                "type": "string"
+              },
+              "avgDeliveryTime": {
+                "type": "string"
+              },
+              "highestRecipeTime": {
+                "type": "string"
+              },
+              "riderArrivedRestaurantAt": {
+                "type": "string"
+              },
+              "instruction": {
+                "type": "string"
+              },
+              "menus": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "menuId": {
+                      "type": "number"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "number"
+                    },
+                    "categoryId": {
+                      "type": "number"
+                    },
+                    "variation": {
+                      "type": "string"
+                    },
+                    "addons": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "addonId": {
+                            "type": "number"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "price": {
+                            "type": "string"
+                          },
+                          "categoryId": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "OrdersGetResponses": {
+        "type": "object",
+        "properties": {
+          "status":{
+            "type":"boolean"
+          },
+          "message":{
+            "type":"string"
+          },
+          "data":{
+            "type": "object",
+            "properties":{
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "orderId": {
+                      "type": "string"
+                    },
+                    "userId": {
+                      "type": "number"
+                    },
+                    "userName": {
+                      "type": "string"
+                    },
+                    "deliveryZoneId": {
+                      "type": "number"
+                    },
+                    "deliveryLat": {
+                      "type": "number"
+                    },
+                    "deliveryLong": {
+                      "type": "number"
+                    },
+                    "deliveryDistance": {
+                      "type": "number"
+                    },
+                    "deliveryAddress": {
+                      "type": "string"
+                    },
+                    "deliveryApartmentName": {
+                      "type": "string"
+                    },
+                    "deliveryRoadOrFlatNumber": {
+                      "type": "string"
+                    },
+                    "isItGift": {
+                      "type": "boolean",
+                      "default":false
+                    },
+                    "giftReceiverName": {
+                      "type": "string"
+                    },
+                    "giftReceiverMobile": {
+                      "type": "string"
+                    },
+                    "riderId": {
+                      "type": "number"
+                    },
+                    "riderName": {
+                      "type": "string"
+                    },
+                    "branchId": {
+                      "type": "number"
+                    },
+                    "branchName": {
+                      "type": "string"
+                    },
+                    "branchZoneId": {
+                      "type": "number"
+                    },
+                    "branchLat": {
+                      "type": "number"
+                    },
+                    "branchLong": {
+                      "type": "number"
+                    },
+                    "paymentId": {
+                      "type": "number"
+                    },
+                    "riderPaidToRestaurant": {
+                      "type": "string"
+                    },
+                    "proofImage": {
+                      "type": "string"
+                    },
+                    "orderStatus": {
+                      "type": "string"
+                    },
+                    "paymentMethod": {
+                      "type": "string"
+                    },
+                    "paymentStatus": {
+                      "type": "string"
+                    },
+                    "orderType": {
+                      "type": "string"
+                    },
+                    "promoCodeId": {
+                      "type": "number"
+                    },
+                    "promoCodeAmount": {
+                      "type": "string"
+                    },
+                    "voucherId": {
+                      "type": "number"
+                    },
+                    "voucherAmount": {
+                      "type": "string"
+                    },
+                    "vat": {
+                      "type": "string"
+                    },
+                    "supplementaryDuty": {
+                      "type": "string"
+                    },
+                    "discountAmount": {
+                      "type": "string"
+                    },
+                    "deliveryCharge": {
+                      "type": "string"
+                    },
+                    "menuTotalAmount": {
+                      "type": "string"
+                    },
+                    "foodiCommissionRateInPercent": {
+                      "type": "number"
+                    },
+                    "foodiCommissionAmount": {
+                      "type": "string"
+                    },
+                    "totalAmount": {
+                      "type": "string"
+                    },
+                    "walletAmount": {
+                      "type": "string"
+                    },
+                    "isCutleryNeeded": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "isPreOrder": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "preOrderDate": {
+                      "type": "string"
+                    },
+                    "isThresholdCrossed": {
+                      "type": "boolean"
+                    },
+                    "isDelivered": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "inProgress": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "isVerified": {
+                      "type": "boolean"
+                    },
+                    "isActive": {
+                      "type": "boolean"
+                    },
+                    "deliveredAt": {
+                      "type": "string"
+                    },
+                    "avgDeliveryTime": {
+                      "type": "string"
+                    },
+                    "highestRecipeTime": {
+                      "type": "string"
+                    },
+                    "riderArrivedRestaurantAt": {
+                      "type": "string"
+                    },
+                    "instruction": {
+                      "type": "string"
+                    },
+                    "menus": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "menuId": {
+                            "type": "number"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "price": {
+                            "type": "string"
+                          },
+                          "quantity": {
+                            "type": "number"
+                          },
+                          "categoryId": {
+                            "type": "number"
+                          },
+                          "variation": {
+                            "type": "string"
+                          },
+                          "addons": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "addonId": {
+                                  "type": "number"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "price": {
+                                  "type": "string"
+                                },
+                                "categoryId": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "itemsPerPage":{
+                "type":"number"
+              },
+              "pageNumber":{
+                "type":"number"
+              },
+              "totalItems":{
+                "type":"number"
+              },
+              "totalPages":{
+                "type":"number"
+              }
+            }
+          }
+        }
+      },
+      "OrdersAdminAcceptRequest":{
+        "type": "object",
+        "properties": {
+          "orderStatus": {
+            "type": "string",
+            "default":"placed",
+            "example":"placed || rider_assigned || rider_re_assigned || cancelled"
+          },
+          "riderId": {
+            "type": "number",
+            "example": "number | It's optional, It is applicable only for manual rider assign"
+          },
+          "isVerified": {
+            "type": "boolean"
+          },
+          "isDelivered": {
+            "type": "boolean",
+            "default":false
+          },
+          "inProgress": {
+            "type": "boolean"
+          }
+        }
+      },
+      "OrdersRestaurantAcceptRequest":{
+        "type": "object",
+        "properties": {
+          "orderStatus": {
+            "type": "string",
+            "example":"restaurant_accepted || restaurant_rejected || restaurant_handover"
+          }
+        }
+      },
+      "OrdersRiderAcceptRequest":{
+        "type": "object",
+        "properties": {
+          "orderStatus": {
+            "type": "string",
+            "description": "rider_arrived_at_restaurant || rider_picked_up || delivered"
+          },
+          "riderId": {
+            "type": "number"
+          },
+          "proofImage":{
+            "type":"file"
+          }
+        },
+        "required": ["orderStatus", "riderId"]
+      },
+      "OrdersPaymentStatusUpdateRequest":{
+        "type": "object",
+        "properties": {
+          "paymentStatus": {
+            "type": "string",
+            "example": "PENDING || APPROVED || DECLINED || CANCELED"
+          }
+        }
+      },
+      "OrderThresholdRequest": {
+        "type": "object",
+        "properties": {
+          "threshold": {
+            "type": "number"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "OrderThresholdResponse": {
+        "type": "object",
+        "properties": {
+          "status":{
+            "type":"boolean"
+          },
+          "message":{
+            "type":"string"
+          },
+          "data":{
+            "type":"object",
+            "properties": {
+              "_id": {"type": "string"},
+              "threshold": {"type": "number"},
+              "isActive": {"type": "boolean"},
+              "deletedAt": {
+                "anyOf": [
+                  { "type": "string" },
+                  { "type": "null" }
+                ]
+              },
+              "createdAt": {"type": "string"},
+              "updatedAt": {"type": "string"}
+            }
+          }
+        }
+      },
+      "OrderThresholdGetResponse": {
+        "type": "object",
+        "properties": {
+          "status":{
+            "type":"boolean"
+          },
+          "message":{
+            "type":"string"
+          },
+          "data":{
+            "type":"object",
+            "properties": {
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {"type": "string"},
+                    "threshold": {"type": "number"},
+                    "isActive": {"type": "boolean"},
+                    "deletedAt": {
+                      "anyOf": [
+                        { "type": "string" },
+                        { "type": "null" }
+                      ]
+                    },
+                    "createdAt": {"type": "string"},
+                    "updatedAt": {"type": "string"}
+                  }
+                }
+              },
+              "itemsPerPage":{
+                "type":"number"
+              },
+              "pageNumber":{
+                "type":"number"
+              },
+              "totalItems":{
+                "type":"number"
+              },
+              "totalPages":{
+                "type":"number"
+              }
+            }
+          }
+        }
+      },
+      "AmountThresholdRequest": {
+        "type": "object",
+        "properties": {
+          "zoneId": {
+            "type": "number"
+          },
+          "amount": {
+            "type": "string",
+            "example": "123"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AmountThresholdResponse": {
+        "type": "object",
+        "properties": {
+          "status":{
+            "type":"boolean"
+          },
+          "message":{
+            "type":"string"
+          },
+          "data":{
+            "type":"object",
+            "properties": {
+              "_id": {"type": "string"},
+              "zoneId": {"type": "number"},
+              "amount": {"type": "string"},
+              "isActive": {"type": "boolean"},
+              "deletedAt": {
+                "anyOf": [
+                  { "type": "string" },
+                  { "type": "null" }
+                ]
+              },
+              "createdAt": {"type": "string"},
+              "updatedAt": {"type": "string"}
+            }
+          }
+        }
+      },
+      "AmountThresholdGetResponse": {
+        "type": "object",
+        "properties": {
+          "status":{
+            "type":"boolean"
+          },
+          "message":{
+            "type":"string"
+          },
+          "data":{
+            "type":"object",
+            "properties": {
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {"type": "string"},
+                    "zoneId": {"type": "number"},
+                    "amount": {"type": "string"},
+                    "isActive": {"type": "boolean"},
+                    "deletedAt": {
+                      "anyOf": [
+                        { "type": "string" },
+                        { "type": "null" }
+                      ]
+                    },
+                    "createdAt": {"type": "string"},
+                    "updatedAt": {"type": "string"}
+                  }
+                }
+              },
+              "itemsPerPage":{
+                "type":"number"
+              },
+              "pageNumber":{
+                "type":"number"
+              },
+              "totalItems":{
+                "type":"number"
+              },
+              "totalPages":{
+                "type":"number"
+              }
+            }
+          }
+        }
+      },
+      "StatusHistoriesResponses": {
+        "type": "object",
+        "properties":{
+          "status":{
+            "type": "boolean"
+          },
+          "message":{
+            "type":"string"
+          },
+          "data":{
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {"type": "string"},
+                "orderId": {"type": "string"},
+                "riderId": {"type": "number"},
+                "status": {"type": "string"},
+                "createdBy": {"type": "string"},
+                "updatedBy": {"type": "string"},
+                "createdAt": {"type": "string"},
+                "updatedAt": {"type": "string"}
+              }
+            }
+          }
+        }
+        
+      },
+      "RestaurantsLatLongResponses": {
+        "type": "object",
+        "properties":{
+          "status":{
+            "type": "boolean"
+          },
+          "message":{
+            "type":"string"
+          },
+          "data":{
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "branchLat": {"type": "number"},
+                "branchLong": {"type": "number"}
+              }
+            }
+          }
+        }
+        
+      },
+      "RestaurantPerformanceResponses": {
+        "type": "object",
+        "properties":{
+          "status":{
+            "type": "boolean"
+          },
+          "message":{
+            "type":"string"
+          },
+          "data":{
+            "type": "object",
+              "properties": {
+                "totalOrder": {"type": "number"},
+                "acceptanceRatio": {"type": "number"},
+                "cancelledRatio": {"type": "number"}
+              }
+          }
+        }
+        
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

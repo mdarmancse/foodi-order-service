@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package riderTrackingPackage;
+
+service RiderTracking{
+  rpc getRiderTrackingList(RiderTrackingRequest) returns (RiderTrackingResponse){};
+}
+
+message Empty {}
+
+message RiderTrackingRequest {
+  int64 riderId = 1;
+  string startDateTime = 2;
+  string endDateTime = 3;
+}
+message Item {
+  float lat = 1;
+  float long = 2;
+  google.protobuf.Timestamp time = 3;
+}
+
+message RiderTrackingResponse {
+  int32 status = 1;
+  string message = 2;
+  repeated Item items = 3;
+}
